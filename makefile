@@ -4,7 +4,7 @@ CURRENT_DIR=$(shell pwd)
 DIST_DIR=${CURRENT_DIR}/dist
 DOCKER?=docker
 SERVER_SRCDIR?=$(CURRENT_DIR)/customer_server
-NAMESPACE=unity-project
+NAMESPACE=default
 MONGO_RELEASE_NAME=mongodb
 MONGO_CHART=oci://registry-1.docker.io/bitnamicharts/mongodb 
 KAFKA_RELEASE_NAME=kafka
@@ -16,7 +16,7 @@ start-local:
 	$(MAKE) deploy-mongo
 	$(MAKE) deploy-kafka
 	@echo "the directory is  $(SERVER_SRCDIR)"
-	@$(CURRENT_DIR)/hack/mirrord-runserver.sh  $(SERVER_SRCDIR)
+	@$(CURRENT_DIR)/hack/mirrord-runserver.sh  $(SERVER_SRCDIR) $(NAMESPACE)
 
 .PHONY: deploy-mongo
 deploy-mongo:
@@ -35,3 +35,9 @@ deploy-kafka:
 		echo "Helm release $(KAFKA_RELEASE_NAME) is not deployed. Deploying now..."; \
 		helm install $(KAFKA_RELEASE_NAME) $(KAFKA_CHART) --values $(CURRENT_DIR)/prerequisites/kafka.yaml -n $(NAMESPACE); \
 	fi
+
+	
+.PHONY: uninstall
+uninstall:
+	helm uninstall $(KAFKA_RELEASE_NAME) -n $(NAMESPACE); \
+	helm uninstall $(MONGO_RELEASE_NAME) -n $(NAMESPACE) ; 

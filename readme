@@ -1,1 +1,6 @@
 # prerequisites
+
+# don't forget to use bash because node js doens't work with shell so mirord will not work with shell 
+kubectl apply -f ./prerequisites/mongo-express/
+kubectl delete -f ./prerequisites/mongo-express/
+kubectl port-forward mongo-express-6cfbc86cb6-kljmn 8081:8081

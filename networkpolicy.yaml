@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-from-unity-project
+  namespace: default  # Namespace where the policy is applied
+spec:
+  podSelector:
+    matchLabels:
+      app: my-app  # Labels to select which pods this policy applies to
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: unity-project  # Namespace you want to allow traffic from
+    ports:
+    - protocol: TCP
+      port: 80
+  policyTypes:
+  - Ingress
