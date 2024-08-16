@@ -1,1 +1,2 @@
-./hack/client.properties
+/hack/client.properties
+node_modules
