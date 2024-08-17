@@ -4,18 +4,19 @@ import connectToMongoDB from './config/db.js'
 import userrouter from './routes/userRoute.js'
 import productrouter from './routes/productsRoute.js'
 import dotenv from 'dotenv';
-import basicAuth  from './middleware/basicauth.js'
+import purchaserouter from './routes/purchesesRoute.js'
 dotenv.config();
-
+import {consumeMessages} from './services/kafka/consumer.js'
 
 
 const app = express()
 app.use(express.json());
-// app.use(basicAuth)
+app.use(purchaserouter)
 app.use(userrouter)
 app.use(productrouter)
 await connectToMongoDB(process.env.MONGODB_USER,process.env.MONGODB_PASSWORD)
-console.log("asdfdddg")
+await consumeMessages()
+
 
 
 const registry = new Registry()
@@ -29,16 +30,6 @@ const requestCounter = new Counter({
   help: 'Total number of HTTP requests',
   registers: [registry],
   labelNames: ['method', 'path', 'status'],
-})
-
-
-
-// app.use(route)
-// define a route to increment the request counter
-
-app.get('/hello',async (req, res) => {
-  res.send("hedd")
-  
 })
 
 // expose the metrics for Prometheus to scrape

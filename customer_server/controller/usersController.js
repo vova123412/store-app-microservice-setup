@@ -1,12 +1,12 @@
 import User from "../modules/usersModel.js"
-const getUser = async (username,password) => {
+const getUser = async (req,res) => {
     try{
-        const specificUser = await User.findOne({ username, password })
-        console.log(specificUser)
+        const { username, password } = req.body;
+        const specificUser = await User.findOne({ username })
         return specificUser
         }
         catch(error){
-          throw error
+          // throw error
         }
   };
 const getAllUsers = async () => {
@@ -15,7 +15,7 @@ const getAllUsers = async () => {
         return Users
         }
         catch(error){
-          throw error
+          // throw error
         }
   };
   const CreateUser = async (req,res) => {
@@ -26,12 +26,13 @@ const getAllUsers = async () => {
             username: req.body.username,
         })
         const result =  await newUsers.save()
-        res.send(result)
+        return result
+        // res.send(result)
         }
         
         catch(error){
          
-          throw error
+          // throw error
         }
   };
 export { getAllUsers,CreateUser,getUser }

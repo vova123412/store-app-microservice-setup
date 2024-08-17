@@ -3,4 +3,9 @@
 # don't forget to use bash because node js doens't work with shell so mirord will not work with shell 
 kubectl apply -f ./prerequisites/mongo-express/
 kubectl delete -f ./prerequisites/mongo-express/
-kubectl port-forward mongo-express-6cfbc86cb6-kljmn 8081:8081
+kubectl port-forward mongo-express-6cfbc86cb6-prfs5 8081:8081
+
+kubectl get pods | grep express | awk '{kubectl exec -it  $1 sh}'
+for pod in $(kubectl get pods --no-headers | grep 'express' | awk '{print $1}'); do
+    kubectl port-forward "$pod" 8081:8081
+done

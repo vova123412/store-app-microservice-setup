@@ -1,6 +1,18 @@
 import Purchase from "../modules/purchasesModel.js"
-import {getUser}  from "../controller/usersController.js";
 import Product from "../modules/productModel.js"
+import { produceMessage } from "../services/kafka/producer.js";
+
+const getAllPurcheses = async () => {
+  try{
+      const allProducts = await Purchase.find()
+      return allProducts
+      }
+      catch(error){
+        console.log(error)
+        // throw error
+      }
+};
+
 const getProduct = async (name,price) => {
     try{
         const specificProduct = await Product.findOne({ name, price })
@@ -8,32 +20,43 @@ const getProduct = async (name,price) => {
         }
         catch(error){
           console.log(error)
-          throw error
+          // throw error
         }
   };
-  const purchasesProduct = async (req,res) => {
+  const produceMesage = async (req,res) => 
+  {
     try{
-        const base64Credentials =  req.headers.authorization.split(' ')[1];
-        const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
-        const [username, password] = credentials.split(':');
-       
-
-        const specificProduct = await getProduct(req.body.name,req.body.price)
-        // console.log(specificProduct)
-        const specificUser = await getUser(username,password)
-        console.log(specificUser._id)
+      const message = await produceMessage(req.body.topic,req.body.message)
+      return message
+      }
+      catch(error){
+        console.log(error)
+        // throw error
+      }
+  }
+  const purchasesProduct = async (purchase) => {
+    try{
+        console.log("consumer :" + purchase.message)
+        const specificProduct = await getProduct(purchase.name,purchase.price)
+        const specificUserId = purchase.userid
+        console.log(specificProduct)
+        if(!specificProduct)
+        {
+            return {"message":"no prodcut found"}
+        }
         const newPurchase = await Purchase.create(
         {    
             name: specificProduct.name,
             price: specificProduct.price,
-            userid: specificUser._id
+            userid: specificUserId
         })
         const result =  await newPurchase.save()
         return result
      
         }
         catch(error){
-          throw error
+          console.log(error)
+          // throw error
         }
   };
-export { purchasesProduct }
+export { purchasesProduct,produceMesage,getAllPurcheses }

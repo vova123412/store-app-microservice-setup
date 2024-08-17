@@ -20,11 +20,12 @@
   "homepage": "https://github.com/vova123412/store-app-microservice-setup#readme",
   "type": "module",
   "dependencies": {
-    "express": "^4.19.2",
-    "prom-client": "^15.1.3",
     "dotenv": "^16.0.3",
+    "express": "^4.19.2",
+    "kafkajs": "^2.2.4",
     "mongoose": "^8.4.4",
-    "pino": "^9.1.0"
+    "pino": "^9.1.0",
+    "prom-client": "^15.1.3"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"

@@ -6,7 +6,7 @@ const getAllProducts = async () => {
         }
         catch(error){
           console.log(error)
-          throw error
+          // throw error
         }
   };
   const CreateProduct = async (req,res) => {
@@ -18,10 +18,10 @@ const getAllProducts = async () => {
         })
         const result =  await newProduct.save()
         return result
-        res.send(result)
+     
         }
         catch(error){
-          throw error
+          // throw error
         }
   };
 export { CreateProduct,getAllProducts }

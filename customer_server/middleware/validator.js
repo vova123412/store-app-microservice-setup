@@ -1,4 +1,5 @@
-import schema from "../objectvalidation/Uservalid.js";
+import schema from "../utils/objectvalidation/Uservalid.js";
+import schemaProduct from "../utils/objectvalidation/productvalid.js";
 async function uservalidator(req, res, next) {
     try {
       await schema.validateAsync(req.body, { abortEarly: false });
@@ -10,4 +11,14 @@ async function uservalidator(req, res, next) {
     }
   };
 
-export { uservalidator }
+async function purchasesValidator(purchese) {
+  try {
+    const valideate  = await schemaProduct.validateAsync(purchese, { abortEarly: false });
+    return valideate
+  } catch (error) {
+    // throw error
+    return error
+  }
+};
+
+export { uservalidator,purchasesValidator }

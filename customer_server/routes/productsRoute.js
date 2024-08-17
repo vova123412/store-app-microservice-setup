@@ -1,9 +1,7 @@
 import express from 'express'
 import  {getAllProducts,CreateProduct}  from "../controller/productsController.js"
 const router = express.Router()
-import {uservalidator} from "../middleware/validator.js"
 import basicAuth  from '../middleware/basicauth.js'
-import {purchasesProduct} from '../controller/purchasesController.js'
 router.post('/createProduct',async function (req, res){ 
   try{
     const Product = await CreateProduct(req,res)
@@ -15,19 +13,6 @@ router.post('/createProduct',async function (req, res){
   }
 
  })
-
-
- router.post('/purchasesProduct',async function (req, res){ 
-    try{
-      const purchases = await purchasesProduct(req,res)
-      res.send(purchases)
-    }
-    catch(error){
-      // console.log(error)
-      res.send(error)
-    }
-  
-   })
 
  router.get('/getProducts',basicAuth,async function (req, res){ 
     try{

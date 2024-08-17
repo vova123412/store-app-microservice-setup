@@ -9,7 +9,6 @@ async function getusers(){
 
 
 async function authenticate({ username, password }) {
-    console.log(users)
     const user = users.find(u => u.username === username && u.password === password);
     if (user) {
         const { password, ...userWithoutPassword } = user;
