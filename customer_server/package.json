@@ -20,8 +20,11 @@
   "homepage": "https://github.com/vova123412/store-app-microservice-setup#readme",
   "type": "module",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.19.2",
+    "joi": "^17.13.3",
+    "joi-objectid": "^4.0.2",
     "kafkajs": "^2.2.4",
     "mongoose": "^8.4.4",
     "pino": "^9.1.0",

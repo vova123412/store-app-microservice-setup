@@ -41,3 +41,12 @@ deploy-kafka:
 uninstall:
 	helm uninstall $(KAFKA_RELEASE_NAME) -n $(NAMESPACE); \
 	helm uninstall $(MONGO_RELEASE_NAME) -n $(NAMESPACE) ; 
+.PHONY: start
+start: 
+	kubectl create ns unity-project || true
+	$(MAKE) deploy-mongo
+	$(MAKE) deploy-kafka
+	eval $(minikube docker-env)
+	@$(DOCKER) build -t amir2023/customerserver ./customer_server
+	@$(DOCKER) push "amir2023/customerserver:latest"
+	@kubectl apply -f ./prerequisites/customerserver/ -n $(NAMESPACE)	
