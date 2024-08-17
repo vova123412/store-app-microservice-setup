@@ -1,30 +1,28 @@
 import express from 'express'
-import User from "../modules/usersModel.js"
-import  {getAllUsers}  from "../controller/usersController.js"
+import  {getAllUsers,CreateUser}  from "../controller/usersController.js"
 const router = express.Router()
-router.post('/createUser',async function (req, res){ 
+import {uservalidator} from "../middleware/validator.js"
+router.post('/createUser',uservalidator,async function (req, res){ 
   try{
-  const log = await User.create({
-            name: "amir", 
-            lastname: "va"    
-        }).then(result => res.send(result))
-    
+    const user = await CreateUser(req,res)
+    res.send(user)
   }
-  
   catch(error){
-    console.log(error)
+    // console.log(error)
+    res.send(error)
   }
 
  })
 
 
- router.get('/getUser',async function (req, res){ 
+ router.get('/getUsers',async function (req, res){ 
     try{
     const Users = await getAllUsers()
     res.send(Users)
     }
     catch(error){
-      throw error
+    //   console.log(error)
+      res.send(error)
     }
    })
  export default router

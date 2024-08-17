@@ -3,15 +3,15 @@ import express from 'express'
 import connectToMongoDB from './config/db.js'
 import router from './routes/userRoute.js'
 import dotenv from 'dotenv';
-
+import basicAuth  from './middleware/basicauth.js'
 dotenv.config();
-// import route from "./test.js"
 
 
-// const  Skill  = require('prom-client');
 
-// create a registry to hold metrics
-
+const app = express()
+app.use(express.json());
+app.use(basicAuth)
+app.use(router)
 await connectToMongoDB(process.env.MONGODB_USER,process.env.MONGODB_PASSWORD)
 console.log("asdfdddg")
 // (async () => {
@@ -35,10 +35,8 @@ const requestCounter = new Counter({
   labelNames: ['method', 'path', 'status'],
 })
 
-// create an express app
-const app = express()
-app.use(router)
-app.use(express.json());
+
+
 // app.use(route)
 // define a route to increment the request counter
 

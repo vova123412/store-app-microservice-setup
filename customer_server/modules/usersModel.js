@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const UserSchema = new mongoose.Schema({
-    name: String, // String is shorthand for {type: String}
-    lastname: String
+    password: { type: String },
+    username: { type: String, required: true, unique: true, dropDups: true, index: true }
   },
   {
     bufferCommands: true,
