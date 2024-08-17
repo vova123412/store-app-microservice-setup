@@ -7,9 +7,13 @@ import dotenv from 'dotenv';
 import purchaserouter from './routes/purchesesRoute.js'
 dotenv.config();
 import {consumeMessages} from './services/kafka/consumer.js'
+import cors from 'cors'
+// const cors = require('cors'); 
 
 
 const app = express()
+app.use(cors()); 
+
 app.use(express.json());
 app.use(purchaserouter)
 app.use(userrouter)
@@ -39,8 +43,8 @@ app.get('/metrics', async (req, res) => {
 })
 
 // start the server
-app.listen(3000,'0.0.0.0', () => {
+app.listen(3001,'0.0.0.0', () => {
   // eslint-disable-next-line no-console
   // @ts-ignore
-  console.log('Server listening on port 3000')
+  console.log('Server listening on port 3001')
 })

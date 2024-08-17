@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "cors": "^2.8.5",
     "joi": "^17.13.3",
     "joi-objectid": "^4.0.2"
   }

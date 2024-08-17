@@ -4,7 +4,7 @@ const producer = kafka.producer();
 const produceMessage = async (topic, message) => {
     await producer.connect();
     const stringmessage = JSON.stringify(message)
-    console.log(message)
+    
     try {
         await producer.send({
             topic: topic,
