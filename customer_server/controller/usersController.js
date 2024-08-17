@@ -1,17 +1,25 @@
 import User from "../modules/usersModel.js"
+const getUser = async (username,password) => {
+    try{
+        const specificUser = await User.findOne({ username, password })
+        console.log(specificUser)
+        return specificUser
+        }
+        catch(error){
+          throw error
+        }
+  };
 const getAllUsers = async () => {
     try{
         const Users = await User.find()
         return Users
         }
         catch(error){
-          console.log(error)
           throw error
         }
   };
   const CreateUser = async (req,res) => {
     try{
-        console.log(req.body)
         const newUsers = await User.create(
         {
             password: req.body.password,
@@ -22,8 +30,8 @@ const getAllUsers = async () => {
         }
         
         catch(error){
-          console.log(error)
+         
           throw error
         }
   };
-export { getAllUsers,CreateUser }
+export { getAllUsers,CreateUser,getUser }

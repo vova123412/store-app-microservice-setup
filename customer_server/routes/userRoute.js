@@ -2,6 +2,7 @@ import express from 'express'
 import  {getAllUsers,CreateUser}  from "../controller/usersController.js"
 const router = express.Router()
 import {uservalidator} from "../middleware/validator.js"
+import basicAuth  from '../middleware/basicauth.js'
 router.post('/createUser',uservalidator,async function (req, res){ 
   try{
     const user = await CreateUser(req,res)
@@ -15,7 +16,7 @@ router.post('/createUser',uservalidator,async function (req, res){
  })
 
 
- router.get('/getUsers',async function (req, res){ 
+ router.get('/getUsers',basicAuth,async function (req, res){ 
     try{
     const Users = await getAllUsers()
     res.send(Users)

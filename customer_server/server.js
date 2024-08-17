@@ -1,7 +1,8 @@
 import { Registry, collectDefaultMetrics, Counter } from 'prom-client'
 import express from 'express'
 import connectToMongoDB from './config/db.js'
-import router from './routes/userRoute.js'
+import userrouter from './routes/userRoute.js'
+import productrouter from './routes/productsRoute.js'
 import dotenv from 'dotenv';
 import basicAuth  from './middleware/basicauth.js'
 dotenv.config();
@@ -10,17 +11,12 @@ dotenv.config();
 
 const app = express()
 app.use(express.json());
-app.use(basicAuth)
-app.use(router)
+// app.use(basicAuth)
+app.use(userrouter)
+app.use(productrouter)
 await connectToMongoDB(process.env.MONGODB_USER,process.env.MONGODB_PASSWORD)
 console.log("asdfdddg")
-// (async () => {
-//   try {
-//     await connectToMongoDB(process.env.MONGODB_USER,process.env.MONGODB_PASSWORD)
-//     console.log("asdfdddg")
-//   } catch (error) {
-//     throw error
-//   }})
+
 
 const registry = new Registry()
 

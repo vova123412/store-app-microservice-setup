@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const ProductSchema = new mongoose.Schema({
-    name: String,
-    price: String,
+    name: { type: String, required: true},
+    price: { type: Number, required: true },
   },
   {
     bufferCommands: true,
@@ -10,4 +10,4 @@ const ProductSchema = new mongoose.Schema({
   }
   );
 const Product = mongoose.model('Product', ProductSchema);
-export default User
+export default Product
