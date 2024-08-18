@@ -14,25 +14,10 @@ mirrord exec -- sh ./hack/loadtest.sh
 
 # don't forget to use bash because node js doens't work with shell so mirord will not work with shell 
 
-kubectl port-forward mongo-express-6cfbc86cb6-prfs5 8081:8081
-
-
-
-kubectl get pods | grep prometheus-server | awk '{kubectl port-forward $1 }'
-
-
-for pod in $(kubectl get pods --no-headers | grep  'prometheus-server' | awk '{print $1}'); do
-    kubectl port-forward "$pod" 9090:9090
-done
-
-for pod in $(kubectl get pods --no-headers | grep 'node' | awk '{print $1}'); do
-    kubectl port-forward "$pod" 3001:3001
-done
-
     kubectl port-forward svc/node-customerserver 3001:3001
     kubectl port-forward  svc/prometheus-server 9090:80
 
-    
+    minikube service node-customerserver -n default --url
 
 
 
