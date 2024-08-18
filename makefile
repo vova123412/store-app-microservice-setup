@@ -20,6 +20,7 @@ start-local:
 	@echo "the directory is  $(SERVER_SRCDIR)"
 	@$(CURRENT_DIR)/hack/mirrord-runserver.sh  $(SERVER_SRCDIR) $(NAMESPACE)
 
+
 .PHONY: deploy-mongo
 deploy-mongo:
 	@if helm status mongodb -n $(NAMESPACE) > /dev/null 2>&1; then \

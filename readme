@@ -9,24 +9,29 @@ minikube + docker
   make start-local -> for developer run the sever locally and communicate with k8s through mirrord
 # architecture
 all releated to architecture stuff in docs folder
-#
+#create load 
+mirrord exec -- sh ./hack/loadtest.sh
 
 # don't forget to use bash because node js doens't work with shell so mirord will not work with shell 
-kubectl apply -f ./prerequisites/mongo-express/
-kubectl delete -f ./prerequisites/mongo-express/
+
 kubectl port-forward mongo-express-6cfbc86cb6-prfs5 8081:8081
 
 
 
-kubectl get pods | grep express | awk '{kubectl exec -it  $1 sh}'
+kubectl get pods | grep prometheus-server | awk '{kubectl port-forward $1 }'
+
+
+for pod in $(kubectl get pods --no-headers | grep  'prometheus-server' | awk '{print $1}'); do
+    kubectl port-forward "$pod" 9090:9090
+done
+
 for pod in $(kubectl get pods --no-headers | grep 'node' | awk '{print $1}'); do
     kubectl port-forward "$pod" 3001:3001
 done
 
-    kubectl port-forward node-app-deployment-f955f8bcd-xgfsb 3001:3001
-    kubectl port-forward prometheus-server-5b95c444dc-fztt8 9090:9090
-    kubectl exec -it node-app-deployment-f955f8bcd-qvnw8  -- bash
-    curl http://node-app-deployment-f955f8bcd-qvnw8 :9090
+    kubectl port-forward svc/node-customerserver 3001:3001
+    kubectl port-forward  svc/prometheus-server 9090:80
+
     
 
 
@@ -48,4 +53,3 @@ for i in $(kubectl get scaledjobs -A \
 do kubectl patch $i -p '{"metadata":{"finalizers":null}}' --type=merge
 done
 
-sum(http_request_duration_seconds_bucket{le="2.5"}) - sum(http_request_duration_seconds_bucket{le="0.1"}) 
