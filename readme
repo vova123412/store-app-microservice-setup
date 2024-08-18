@@ -1,20 +1,39 @@
-# prerequisites
+# prerequisites quick installation in scripts folder 
+kubectl
+helm
+node js 20.15.1
+wsl or linux ubuntu machine 
+minikube + docker
+# get started 
+  make start -> deploy the project on k8s
+  make start-local -> for developer run the sever locally and communicate with k8s through mirrord
+# architecture
+all releated to architecture stuff in docs folder
+#
 
 # don't forget to use bash because node js doens't work with shell so mirord will not work with shell 
 kubectl apply -f ./prerequisites/mongo-express/
 kubectl delete -f ./prerequisites/mongo-express/
 kubectl port-forward mongo-express-6cfbc86cb6-prfs5 8081:8081
 
-kubectl get pods | grep express | awk '{kubectl exec -it  $1 sh}'
-for pod in $(kubectl get pods --no-headers | grep 'express' | awk '{print $1}'); do
-    kubectl port-forward "$pod" 8081:8081
-done
-# keda install 
-helm repo add kedacore https://kedacore.github.io/charts
-helm repo update
-helm install keda kedacore/keda --namespace keda --create-namespace
 
-# uninstall
+
+kubectl get pods | grep express | awk '{kubectl exec -it  $1 sh}'
+for pod in $(kubectl get pods --no-headers | grep 'node' | awk '{print $1}'); do
+    kubectl port-forward "$pod" 3001:3001
+done
+
+    kubectl port-forward node-app-deployment-f955f8bcd-xgfsb 3001:3001
+    kubectl port-forward prometheus-server-5b95c444dc-fztt8 9090:9090
+    kubectl exec -it node-app-deployment-f955f8bcd-qvnw8  -- bash
+    curl http://node-app-deployment-f955f8bcd-qvnw8 :9090
+    
+
+
+
+
+
+# uninstall keda
 kubectl delete $(kubectl get scaledobjects.keda.sh,scaledjobs.keda.sh -A \
   -o jsonpath='{"-n "}{.items[*].metadata.namespace}{" "}{.items[*].kind}{"/"}{.items[*].metadata.name}{"\n"}')
 helm uninstall keda -n keda
@@ -28,3 +47,5 @@ for i in $(kubectl get scaledjobs -A \
   -o jsonpath='{"-n "}{.items[*].metadata.namespace}{" "}{.items[*].kind}{"/"}{.items[*].metadata.name}{"\n"}');
 do kubectl patch $i -p '{"metadata":{"finalizers":null}}' --type=merge
 done
+
+sum(http_request_duration_seconds_bucket{le="2.5"}) - sum(http_request_duration_seconds_bucket{le="0.1"}) 
