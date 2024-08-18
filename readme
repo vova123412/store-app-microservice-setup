@@ -1,28 +1,36 @@
-# prerequisites quick installation in scripts folder 
-kubectl
-helm
-node js 20.15.1
-wsl or linux ubuntu machine 
-minikube + docker
-# get started 
-  make start -> deploy the project on k8s
-  make start-local -> for developer run the sever locally and communicate with k8s through mirrord
-# architecture
-all releated to architecture stuff in docs folder
-#create load 
+# Prerequisites
+
+Ensure the following are installed:
+
+- `kubectl`
+- `helm`
+- `Node.js 20.15.1`
+- WSL or a Linux Ubuntu machine
+- Minikube + Docker
+
+# Get Started
+
+# To deploy the project on Kubernetes:
+
+make start
+# To deploy the project locally in dev mod:
+make start-local
+# test autoscaling
 mirrord exec -- sh ./hack/loadtest.sh
 
 # don't forget to use bash because node js doens't work with shell so mirord will not work with shell 
 
-    kubectl port-forward svc/node-customerserver 3001:3001
-    kubectl port-forward  svc/prometheus-server 9090:80
-
-    minikube service node-customerserver -n default --url
 
 
+Routes
+I didn’t have time to set up Swagger, so here are the routes implemented:
 
-
-
+GET /products - Retrieve all products
+POST /products - Create a new product
+GET /purchases - Retrieve all purchases
+POST /purchases - Create a new purchase
+POST /users - Create a new user
+POST / getSpecificUser  Retrieve User
 # uninstall keda
 kubectl delete $(kubectl get scaledobjects.keda.sh,scaledjobs.keda.sh -A \
   -o jsonpath='{"-n "}{.items[*].metadata.namespace}{" "}{.items[*].kind}{"/"}{.items[*].metadata.name}{"\n"}')
