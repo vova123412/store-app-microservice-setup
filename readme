@@ -22,6 +22,12 @@ mirrord exec -- sh ./hack/loadtest.sh
 
 
 
+
+# test\
+
+kubectl port-forward svc/prometheus-server
+
+##
 Routes
 I didn’t have time to set up Swagger, so here are the routes implemented:
 

@@ -13,6 +13,4 @@ const kafka = new Kafka({
 });
 
 
-
-
 export {kafka,CompressionTypes}

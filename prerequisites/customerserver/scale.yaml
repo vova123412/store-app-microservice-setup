@@ -15,6 +15,6 @@ spec:
     metadata:
       serverAddress: http://prometheus-server.default.svc.cluster.local  # Replace with your Prometheus service address
       metricName: http_request_duration_seconds_bucket
-      threshold: "75"  # Set the threshold value
+      threshold: "2"  # Set the threshold value
       query: | 
-        sum(http_request_duration_seconds_bucket{le="2.5"}) 
+        sum(http_request_duration_seconds_bucket{le="0.1"} ) - sum(http_request_duration_seconds_bucket{le="0.01"} ) 
