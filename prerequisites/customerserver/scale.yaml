@@ -6,7 +6,7 @@ metadata:
 spec:
   scaleTargetRef:
     name: node-app-deployment
-  minReplicaCount: 2
+  minReplicaCount: 1
   maxReplicaCount: 5
   cooldownPeriod: 30
   pollingInterval: 15
@@ -15,6 +15,6 @@ spec:
     metadata:
       serverAddress: http://prometheus-server.default.svc.cluster.local  # Replace with your Prometheus service address
       metricName: http_request_duration_seconds_bucket
-      threshold: "2"  # Set the threshold value
+      threshold: "10"  # Set the threshold value
       query: | 
-        sum(http_request_duration_seconds_bucket{le="0.1"} ) - sum(http_request_duration_seconds_bucket{le="0.01"} ) 
+        sum(increase(http_request_duration_seconds_bucket{le="0.1"}[4m]) ) - sum(increase(http_request_duration_seconds_bucket{le="0.01"}[4m]))

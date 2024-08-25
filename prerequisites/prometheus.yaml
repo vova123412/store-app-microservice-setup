@@ -801,6 +801,8 @@ serverFiles:
         static_configs:
           - targets:
             - node-customerserver:3001
+        scrape_interval: 50s
+        scrape_timeout: 30s
       # A scrape configuration for running Prometheus on a Kubernetes cluster.
       # This uses separate scrape configs for cluster components (i.e. API server, node)
       # and services to allow each to use different authentication configs.
