@@ -1,0 +1,10 @@
+
+node_modules
+*.log
+build
+Dockerfile
+.dockerignore
+.env
+README.md
+package-lock.json
+yarn.lock
