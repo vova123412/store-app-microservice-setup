@@ -1,5 +1,7 @@
 import {Kafka,CompressionTypes,logLevel } from "kafkajs"
-
+import dotenv from 'dotenv';
+dotenv.config();
+// should use singletone
 const kafka = new Kafka({
   clientId: "my-app",
   brokers: ["kafka:9092"],
@@ -7,8 +9,8 @@ const kafka = new Kafka({
   ssl: false,
   sasl: {
     mechanism: 'plain',
-    username: 'user1',
-    password: '123'
+    username: process.env.KAFKA_USERNAME,
+    password: process.env.KAFKA_PASSWORD
   },
 });
 

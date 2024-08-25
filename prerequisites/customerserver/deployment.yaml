@@ -26,3 +26,7 @@ spec:
             value: "root"
           - name: MONGODB_PASSWORD
             value: "123"
+          - name: KAFKA_PASSWORD
+            value: "123"
+          - name: KAFKA_USERNAME
+            value: "user1"
